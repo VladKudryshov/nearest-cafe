@@ -4,10 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var cors = require('cors');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+var nearest-cafe = require('./routes/nearest-cafe');
+var cafe = require('./routes/cafe');
 
 var app = express();
 
@@ -24,47 +24,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/users', users);
-
-const routes = [
-  {
-    name: '5',
-    slug: 'bus-5'
-  },
-  {
-    name: '26',
-    slug: 'bus-26'
-  },
-  {
-    name: '15э',
-    slug: 'bus-15e'
-  }
-];
-
-app.get('/nearest-bus-stop', (req, res) => {
-  res.json({
-    name: 'Парк Жилибера',
-    routes: routes,
-  });
-});
-
-app.get('/routes/:slug', (req, res) => {
-  const slug = req.params.slug;
-  const route = routes.find((r) => r.slug === slug);
-
-  res.json(Object.assign(
-    {},
-    route,
-    { path: 'to-be-designed' }
-  ));
-});
-
-/*
-
-/nearest-bus-stop?lat=:lat&long=:long
-/routes/:slug
-
-*/
+app.use('/', index);
+app.use('/nearest-cafe', nearest-cafe);
+app.use('/cafe', cafe);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
