@@ -13,4 +13,5 @@ Get information about the nearest cafes.
 API.
 
 GET/ nearest-cafe?lat=:lat&long=:long - get the nearest cafe in a radius of 1000m;
+
 GET/ cafe/:id/info - get information about the cafe.
