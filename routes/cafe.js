@@ -1,15 +1,14 @@
 var express = require('express');
 var router = express.Router();
+var cafe = require('../data/cafe');
 
-/* GET home page. */
-router.get('/cafe/:id/info', function(req, res, next) {
-    const id = req.params.id;
-    const cafe = cafe.find((r) => r.id === id);
+router.get('/', function(req, res, next) {
+   res.send(cafe);
+});
 
-    res.json(Object.assign(
-      {},
-      cafe,
-    ));
+router.get('/:id/info', function(req, res, next) {
+   const id = req.params.id;
+   res.json(cafe.find((r) => r.id === id));
 });
 
 module.exports = router;
