@@ -29,41 +29,50 @@ function getGeolocation(view) {
 }
 
 
+
+
+
+
+
 var geolocation;
 function getLocation(){
-  geolocation = getGeolocation(view);
-  alert(geolocation.getPosition());
-  $("div.box-shadow").remove();
-  $("button.location").remove();
-  var position = geolocation.getPosition();
-    var point = new ol.layer.Vector({
 
-        source: new ol.source.Vector({
-            features: [new ol.Feature({
-                geometry: new ol.geom.Point(position),
-            })]
-        })
-    });
-    map.addLayer(point);
-    view.setCenter(position);
-    view.setResolution(2.388657133911758);
-    var coords = view.getCenter();
-    var resolution = view.getResolution();
-
-    var resolutionAtCoords = 1.47243;
-    var resolutionFactor = resolution/resolutionAtCoords;
-
+  navigator.geolocation.getCurrentPosition(function(position) {
+    geolocation = getGeolocation(view);
+    alert(geolocation.getPosition());
+    $("div.box-shadow").remove();
+    $("button.location").remove();
+    var position = geolocation.getPosition();
       var point = new ol.layer.Vector({
 
           source: new ol.source.Vector({
               features: [new ol.Feature({
-                  geometry: new ol.geom.Circle(position, (1300 / ol.proj.METERS_PER_UNIT.m)*resolutionFactor),
+                  geometry: new ol.geom.Point(position),
               })]
           })
       });
-
       map.addLayer(point);
-    GetNearestCafe();
+      view.setCenter(position);
+      view.setResolution(2.388657133911758);
+      var coords = view.getCenter();
+      var resolution = view.getResolution();
+
+      var resolutionAtCoords = 1.47243;
+      var resolutionFactor = resolution/resolutionAtCoords;
+
+        var point = new ol.layer.Vector({
+
+            source: new ol.source.Vector({
+                features: [new ol.Feature({
+                    geometry: new ol.geom.Circle(position, (1300 / ol.proj.METERS_PER_UNIT.m)*resolutionFactor),
+                })]
+            })
+        });
+
+        map.addLayer(point);
+      GetNearestCafe();
+  });
+
 }
 
 function GetNearestCafe() {
@@ -137,7 +146,8 @@ $('body').on('click', 'a[class*=list-group-item]', function(e){
    e.preventDefault();
 });
 
-  map.on('singleclick', function(e) {
+
+map.on('singleclick', function(e) {
       var feature = map.forEachFeatureAtPixel(e.pixel, function(feature) {
         return feature;
       });
