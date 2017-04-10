@@ -26,7 +26,7 @@ module.exports = {
             return feature;
           });
           var infoElement = document.getElementById('popup');
-          infoElement.innerHTML = feature ? getInfo(feature) : 'Здесь кафе нет!';
+          infoElement.innerHTML = feature ? getInfoOffPoint(feature) : 'Здесь кафе нет!';
     });
   },
 

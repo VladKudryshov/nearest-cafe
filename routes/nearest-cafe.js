@@ -85,7 +85,7 @@ router.get('/', function(req, res, next) {
     var radius = distance(req.query.lat, req.query.long,cafe[i].lat,cafe[i].long);
 
     if (radius<1300 ) {
-        arr[index] = [i,radius];4
+        arr[index] = [i,radius];
         index++;
     }
   }

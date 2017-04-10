@@ -1,5 +1,5 @@
 var geo = require('./geo');
-var cafe = require('./noConnect');
+var cafe = require('./nearest-cafe');
 
 $(document).ready(function() {
   geo.createMap();
@@ -37,7 +37,7 @@ function createPointsIntoMap() {
     var coords = view.getCenter();
     var resolution = view.getResolution();
 
-    var resolutionAtCoords = 1.47243;
+    var resolutionAtCoords = 1.409;
     var resolutionFactor = resolution/resolutionAtCoords;
 
       var point = new ol.layer.Vector({
