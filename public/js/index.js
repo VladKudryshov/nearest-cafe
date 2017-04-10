@@ -1,13 +1,29 @@
 var geo = require('./geo');
-var cafe = require('./nearest-cafe');
+var cafe = require('./noConnect');
 
 $(document).ready(function() {
   geo.createMap();
 });
 
 
+var TIME = 10*1000; //3 дня
+function setCookie () {
+    var time = new Date();
+    time.setTime(Date.parse(time) + TIME);
+    document.cookie = 'position' + '=' + geolocation.getPosition() + '; expires=' + time;
+}
+
+function getCookie() {
+  if (document.cookie.search('position') != -1) {
+    $("div.box-shadow").remove();
+    $("button.location").remove();
+
+  }
+}
+
+
 function createPointsIntoMap() {
-    var position = geolocation.getPosition();
+      var position = geolocation.getPosition();
     var point = new ol.layer.Vector({
         source: new ol.source.Vector({
             features: [new ol.Feature({
@@ -39,10 +55,10 @@ function createPointsIntoMap() {
 
 
 window.find = function(){
-
+  setCookie();
   $("div.box-shadow").remove();
   $("button.location").remove();
-  functionName();
+  createPointsIntoMap();
 
 }
 

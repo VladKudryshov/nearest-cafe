@@ -3,7 +3,7 @@ module.exports = {
     $(".content").css("opacity","1")
     $(".asd").text("Cafe list")
 
-    var position = geolocation.getPosition();
+      var position = geolocation.getPosition();
     var mylocation = ol.proj.toLonLat(position);
 
      $.ajax({
