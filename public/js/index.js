@@ -2,7 +2,7 @@ import geo from './geo'
 import cafe from './nearest-cafe'
 var data = require('../../data/cafe');
 
-localStorage["cafe"] = JSON.stringify(data);
+
 
 
 $(document).ready(function() {

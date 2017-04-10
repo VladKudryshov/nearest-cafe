@@ -6,6 +6,7 @@ module.exports = {
       var position = geolocation.getPosition();
     var mylocation = ol.proj.toLonLat(position);
     if (localStorage['cafe']!=undefined) {
+
       noConnectNearest(JSON.parse(localStorage['cafe']));
     }else{
      $.ajax({
@@ -13,6 +14,8 @@ module.exports = {
          type: "GET",
          contentType: "application/json",
          success: function (cafe) {
+           localStorage["cafe"] = JSON.stringify(cafe);
+
            createList(cafe)
          }
      });
