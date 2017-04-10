@@ -66,19 +66,43 @@ window.find = function(){
 
 }
 
-$('body').on('click', 'a[class*=list-group-item]', function(e){
+function getCafeLocation(cafeUrl, callback) {
+  $.ajax({
+    type: "GET",
+    url: cafeUrl,
+    contentType: "application/json",
+    success: function (cafe) {
+      callback(null, cafe);
+    },
+    // TODO check option existence
+    fail: function (err) {
+      callback(err);
+    }
+  });
+}
 
-    $.ajax({
-       type: "GET",
-       url: $(this).attr("href"),
-       contentType: "application/json",
-       success: function (cafe) {
-             var position = [cafe.long,cafe.lat];
-             var transform = ol.proj.fromLonLat(position);
-             view.setCenter(transform);
-             view.setResolution(2.388657133911758);
-       }
-    });
+const createCenterView = (view) => (location) => centerView(view, location);
+const centerMainView = createCenterView(window.view);
 
-   e.preventDefault();
+function centerView (view, location) {
+  var transform = ol.proj.fromLonLat([ location.long, location.lat ]);
+  view.setCenter(transform);
+  view.setResolution(2.388657133911758);
+}
+
+function centerOnCafe(cafeUrl, callback) {
+  getCafeLocation(cafeUrl, function (err, location) {
+    if (err) {
+      return callback(err);
+    }
+    centerMainView(location);
+  });
+}
+
+$('body').on('click', 'a[class*=list-group-item]', function (e) {
+  const cafeUrl = $(this).attr("href");
+  centerOnCafe(cafeUrl, (err) => {
+    $(this).addClass('failted-to-center');
+  });
+  e.preventDefault();
 });
